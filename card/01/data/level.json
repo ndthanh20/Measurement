@@ -1,0 +1,39 @@
+{
+    "level": [{
+        "gift": 8,
+        "rackQueue": [1, 3, 5, 7, 8],
+        "rackRight": []
+    }, {
+        "gift": 5,
+        "rackQueue": [1, 2, 4, 8, 9],
+        "rackRight": []
+    }, {
+        "gift": 7,
+        "rackQueue": [1, 2, 3, 5, 9],
+        "rackRight": []
+    }, {
+        "gift": 6,
+        "rackQueue": [3, 5, 8, 9],
+        "rackRight": [2, 4, 7]
+    }, {
+        "gift": 4,
+        "rackQueue": [5, 6, 7, 9],
+        "rackRight": [1, 2, 3]
+    }, {
+        "gift": 9,
+        "rackQueue": [3, 5],
+        "rackRight": [2, 3, 4, 8]
+    }, {
+        "gift": 3,
+        "rackQueue": [1, 4, 6, 9],
+        "rackRight": [2, 5]
+    }, {
+        "gift": 8,
+        "rackQueue": [3, 4, 7],
+        "rackRight": [1, 4, 6]
+    }, {
+        "gift": 4,
+        "rackQueue": [1, 2, 5, 8],
+        "rackRight": [2, 3, 5]
+    }]
+}
