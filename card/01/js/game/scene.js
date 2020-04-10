@@ -3,19 +3,19 @@ class Scene extends Phaser.Scene {
         super("Game");
     }
     preload() {
-        this.load.image("block1", "/measurement/card/01/image/1.png");
-        this.load.image("block2", "/measurement/card/01/image/2.png");
-        this.load.image("block3", "/measurement/card/01/image/3.png");
-        this.load.image("block4", "/measurement/card/01/image/4.png");
-        this.load.image("block5", "/measurement/card/01/image/5.png");
-        this.load.image("block6", "/measurement/card/01/image/6.png");
-        this.load.image("block7", "/measurement/card/01/image/7.png");
-        this.load.image("block8", "/measurement/card/01/image/8.png");
-        this.load.image("block9", "/measurement/card/01/image/9.png");
-        this.load.image("rackleft", "/measurement/card/01/image/left.png");
-        this.load.image("rackright", "/measurement/card/01/image/right.png");
-        this.load.image("rackqueue", "/measurement/card/01/image/queue.png");
-        this.load.text('level', "/measurement/card/01/data/level.json");
+        this.load.image("block1", "./image/1.png");
+        this.load.image("block2", "./image/2.png");
+        this.load.image("block3", "./image/3.png");
+        this.load.image("block4", "./image/4.png");
+        this.load.image("block5", "./image/5.png");
+        this.load.image("block6", "./image/6.png");
+        this.load.image("block7", "./image/7.png");
+        this.load.image("block8", "./image/8.png");
+        this.load.image("block9", "./image/9.png");
+        this.load.image("rackleft", "./image/left.png");
+        this.load.image("rackright", "./image/right.png");
+        this.load.image("rackqueue", "./image/queue.png");
+        this.load.text('level', "./data/level.json");
     }
 
     create() {
