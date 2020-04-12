@@ -5,11 +5,12 @@ class Block extends Phaser.GameObjects.Sprite {
         scene.add.existing(this).setOrigin(0, 0);
         this.setInteractive();
         scene.input.setDraggable(this);
-        scene.input.on('drag', this.onDoDrag);
+        scene.input.on("drag", this.onDoDrag);
     }
 
     create() {
         let weight = 0;
+        var speed = 5;
     }
     offMove() {
         this.disableInteractive();
@@ -27,8 +28,31 @@ class Block extends Phaser.GameObjects.Sprite {
     }
 
     onDoDrag(pointer, gameObject, dragX, dragY) {
-        gameObject.x = dragX;
-        gameObject.y = dragY;
-    }
+        if (dragX + gameObject.width > config.width) {
+            gameObject.x = config.width - gameObject.width;
+        } else if (dragX < 0) {
+            gameObject.x = 0;
+        } else {
+            gameObject.x = dragX;
+        }
 
+        if (dragY < 0) {
+            gameObject.y = 0;
+        } else if (dragY + gameObject.height > config.height) {
+            gameObject.y = config.height - gameObject.height;
+        } else {
+            gameObject.y = dragY;
+        }
+    }
+    /*
+    move(start, des) {
+        var dx = start.x - des.x;
+        var dy = start.y - des.y;
+
+        var angle = (Math.atan2(y, x) * 180) / Math.PI + 90;
+
+        this.x = this.x + this.speed * cos(angle);
+        this.y = this.y + this.speed * sin(angle);
+    }
+    */
 }
