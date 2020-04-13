@@ -29,7 +29,7 @@ class Block extends Phaser.GameObjects.Sprite {
 
     onDoDrag(pointer, gameObject, dragX, dragY) {
         if (dragX + gameObject.width > config.width) {
-            gameObject.y = dragY;	            gameObject.x = config.width - gameObject.width;
+            gameObject.y = dragY;	            
             } else if (dragX < 0) {
                 gameObject.x = 0;
             } else {
