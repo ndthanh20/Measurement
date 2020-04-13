@@ -2,6 +2,7 @@ class Scene extends Phaser.Scene {
     constructor() {
         super("Game");
     }
+
     preload() {
         this.load.image("block1", "./image/1.png");
         this.load.image("block2", "./image/2.png");
@@ -15,10 +16,17 @@ class Scene extends Phaser.Scene {
         this.load.image("rackleft", "./image/left.png");
         this.load.image("rackright", "./image/right.png");
         this.load.image("rackqueue", "./image/queue.png");
+        this.load.image("progressbar","./image/progressbar.png");
+        this.load.image("ball","./image/ball.png");
         this.load.text('level', "./data/level.json");
     }
+    
+    
 
-    create() {
+    create(){
+        this.add.image(480,100,'progressbar');
+        
+
         this.scales = new Scales(this);
         this.rackleft = new Rack(this, 136, 233, 'rackleft');
         this.rackright = new Rack(this, 464, 233, 'rackright');
@@ -29,9 +37,17 @@ class Scene extends Phaser.Scene {
         this.setData(this.data[this.level - 1]);
         this.input.on('gameobjectup', this.onStop, this);
         this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
+        
+        this.balls = this.physics.add.group({
+            key: 'ball',
+            repeat: 9,
+            setXY: { x: 215, y: 100, stepX: 30 }
+        });    
+
     }
 
     update() {
+        var list = this.balls.getChildren();
         if (this.scales.isBalance(this.rackleft, this.rackright)) {
             if (this.level === 9)
                 this.time.addEvent({
@@ -41,7 +57,9 @@ class Scene extends Phaser.Scene {
                     },
                     loop: true
                 })
+            list[list.length-this.level].x +=265;
             this.level++;
+            this.scales.draw(5,this.rackleft,this.rackright);
             this.reset();
             console.log(this.data[this.level - 1]);
             this.setData(this.data[this.level - 1]);

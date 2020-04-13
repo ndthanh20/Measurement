@@ -22,7 +22,7 @@ class Rack extends Phaser.GameObjects.Sprite {
         return sum;
     }
 
-    update() {}
+    update(){}     
 
     sort() {
         var list = this.blocks.getChildren();
