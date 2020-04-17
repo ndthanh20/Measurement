@@ -44,15 +44,6 @@ class Block extends Phaser.GameObjects.Sprite {
                 gameObject.y = dragY;
             }
     }
-    
-    /*
-    move(start, des) {
-        var dx = start.x - des.x;
-        var dy = start.y - des.y;
-        var angle = (Math.atan2(y, x) * 180) / Math.PI + 90;
-        this.x = this.x + this.speed * cos(angle);
-        this.y = this.y + this.speed * sin(angle);
-    }
-    */
 
 }
+
