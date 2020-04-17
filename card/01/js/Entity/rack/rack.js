@@ -26,7 +26,7 @@ class Rack extends Phaser.GameObjects.Sprite {
 
     sort() {
         var list = this.blocks.getChildren();
-        var temp = this.x + 10;
+        var temp = this.x + this.width/2 + 20 - 30*list.length;
         for (var i = 0; i < list.length; i++) {
             list[i].x = temp;
             list[i].y = this.y - (-this.height + list[i].height);

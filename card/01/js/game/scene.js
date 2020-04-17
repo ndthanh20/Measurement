@@ -59,10 +59,10 @@ class Scene extends Phaser.Scene {
                 })
             list[list.length-this.level].x +=265;
             this.level++;
-            this.scales.draw(5,this.rackleft,this.rackright);
             this.reset();
             console.log(this.data[this.level - 1]);
             this.setData(this.data[this.level - 1]);
+            this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
         }
     }
 
