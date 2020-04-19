@@ -49,7 +49,7 @@ class Scene extends Phaser.Scene {
     update() {
         var list = this.balls.getChildren();
         if (this.scales.isBalance(this.rackleft, this.rackright)) {
-            if (this.level === 2)
+            if (this.level === 9)
                 this.time.addEvent({
                     delay: 2000,
                     callback: () => {
