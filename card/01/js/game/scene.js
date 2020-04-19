@@ -24,7 +24,7 @@ class Scene extends Phaser.Scene {
     
 
     create(){
-        this.add.image(480,100,'progressbar');
+        this.add.image(480,30,'progressbar');
         
 
         this.scales = new Scales(this);
@@ -41,7 +41,7 @@ class Scene extends Phaser.Scene {
         this.balls = this.physics.add.group({
             key: 'ball',
             repeat: 9,
-            setXY: { x: 215, y: 100, stepX: 30 }
+            setXY: { x: 215, y: 30, stepX: 30 }
         });    
 
     }
@@ -49,11 +49,11 @@ class Scene extends Phaser.Scene {
     update() {
         var list = this.balls.getChildren();
         if (this.scales.isBalance(this.rackleft, this.rackright)) {
-            if (this.level === 9)
+            if (this.level === 2)
                 this.time.addEvent({
                     delay: 2000,
                     callback: () => {
-                        window.location = '/measurement/lesson/weight.html';
+                        window.location = '../../lesson/weight.html';
                     },
                     loop: true
                 })
