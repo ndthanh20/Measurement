@@ -92,7 +92,7 @@ class Scene extends Phaser.Scene {
             gameObject.y = dragY;
         }
 
-        if (gameObject.x < this.rackqueue.x + this.rackqueue.width && gameObject.x > this.rackqueue.x && gameObject.y < this.rackqueue.y + this.rackqueue.height && gameObject.y > this.rackqueue.y) {
+        if (gameObject.x < this.rackqueue.x + this.rackqueue.width && gameObject.x > this.rackqueue.x && gameObject.y + gameObject.height < this.rackqueue.y + this.rackqueue.height && gameObject.y + gameObject.height > this.rackqueue.y + this.rackqueue.height/2) {
             this.rackqueue.updateRackTouch();
             this.rackqueue.rackTouch.turnOn();
         } else {
@@ -104,7 +104,7 @@ class Scene extends Phaser.Scene {
         } else {
             this.rackleft.rackTouch.turnOff();
         }
-        if (gameObject.x < this.rackright.x + this.rackright.width && gameObject.x > this.rackright.x && gameObject.y < this.rackright.y + this.rackright.height && gameObject.y > this.rackright.y) {
+        if (gameObject.x < this.rackright.x + this.rackright.width && gameObject.x > this.rackright.x && gameObject.y + gameObject.height < this.rackright.y + this.rackright.height && gameObject.y + gameObject.height > this.rackright.y + this.rackright.height/2) {
             this.rackright.updateRackTouch();
             this.rackright.rackTouch.turnOn();
         } else {
@@ -116,7 +116,7 @@ class Scene extends Phaser.Scene {
         this.rackqueue.rackTouch.turnOff();
         this.rackleft.rackTouch.turnOff();
         this.rackright.rackTouch.turnOff();
-        if (gameObject.x < this.rackqueue.x + this.rackqueue.width && gameObject.x > this.rackqueue.x && gameObject.y < this.rackqueue.y + this.rackqueue.height && gameObject.y > this.rackqueue.y) {
+        if (gameObject.x < this.rackqueue.x + this.rackqueue.width && gameObject.x > this.rackqueue.x && gameObject.y + gameObject.height < this.rackqueue.y + this.rackqueue.height && gameObject.y + gameObject.height> this.rackqueue.y + this.rackqueue.height/2) {
             this.rackqueue.addBlocks(gameObject);
             this.rackright.removeBlocks(gameObject);
             this.rackleft.removeBlocks(gameObject);
@@ -126,7 +126,7 @@ class Scene extends Phaser.Scene {
             this.rackright.removeBlocks(gameObject);
             this.rackqueue.removeBlocks(gameObject);
             this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
-        } else if (gameObject.x < this.rackright.x + this.rackright.width && gameObject.x > this.rackright.x && gameObject.y < this.rackright.y + this.rackright.height && gameObject.y > this.rackright.y) {
+        } else if (gameObject.x < this.rackright.x + this.rackright.width && gameObject.x > this.rackright.x && gameObject.y + gameObject.height < this.rackright.y + this.rackright.height && gameObject.y + gameObject.height > this.rackright.y + this.rackright.height/2) {
             this.rackright.addBlocks(gameObject);
             this.rackleft.removeBlocks(gameObject);
             this.rackqueue.removeBlocks(gameObject);
