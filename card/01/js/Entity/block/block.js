@@ -1,11 +1,11 @@
-class Block extends Phaser.GameObjects.Sprite {
+class Block extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, weight, obj) {
         super(scene, x, y, obj);
         this.setWeight(weight);
         scene.add.existing(this).setOrigin(0, 0);
+        scene.physics.add.existing(this);
         this.setInteractive();
         scene.input.setDraggable(this);
-        scene.input.on("drag", this.onDoDrag);
     }
 
     create() {
@@ -26,24 +26,4 @@ class Block extends Phaser.GameObjects.Sprite {
     getWeight() {
         return this.weight;
     }
-
-    onDoDrag(pointer, gameObject, dragX, dragY) {
-        if (dragX + gameObject.width > config.width) {
-            gameObject.y = dragY;	            
-            } else if (dragX < 0) {
-                gameObject.x = 0;
-            } else {
-                gameObject.x = dragX;
-            }
-    
-            if (dragY < 0) {
-                gameObject.y = 0;
-            } else if (dragY + gameObject.height > config.height) {
-                gameObject.y = config.height - gameObject.height;
-            } else {
-                gameObject.y = dragY;
-            }
-    }
-
 }
-
