@@ -21,35 +21,41 @@ class Scene extends Phaser.Scene {
         this.load.image("rackleftTouch", "./image/leftTouch.png");
         this.load.image("progressbar", "./image/progressbar.png");
         this.load.image("ball", "./image/ball.png");
-        this.load.text('level', "./data/level.json");
+        this.load.text("level", "./data/level.json");
     }
 
     create() {
-        this.add.image(480, 100, 'progressbar');
+        this.add.image(480, 100, "progressbar");
         this.scales = new Scales(this);
-        this.rackleft = new Rack(this, 136, 233, 'rackleft');
-        this.rackright = new Rack(this, 464, 233, 'rackright');
-        this.rackqueue = new Rack(this, 330, 480, 'rackqueue');
-        this.rackqueue.createDragRack(this, 'rackqueueTouch');
-        this.rackleft.createDragRack(this, 'rackleftTouch');
-        this.rackright.createDragRack(this, 'rackrightTouch');
+        this.rackleft = new Rack(this, 136, 233, "rackleft");
+        this.rackright = new Rack(this, 464, 233, "rackright");
+        this.rackqueue = new Rack(this, 330, 480, "rackqueue");
+        this.rackqueue.createDragRack(this, "rackqueueTouch");
+        this.rackleft.createDragRack(this, "rackleftTouch");
+        this.rackright.createDragRack(this, "rackrightTouch");
         this.gift = null;
         this.level = 1;
-        this.data = JSON.parse(this.cache.text.get('level')).level;
+        this.data = JSON.parse(this.cache.text.get("level")).level;
         this.setData(this.data[this.level - 1]);
-        this.input.on('gameobjectup', this.onStop, this);
+        this.input.on("gameobjectup", this.onStop, this);
         this.input.on("drag", this.onDoDrag, this);
-        this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
+        this.scales.draw(
+            this.scales.compare(this.rackleft, this.rackright),
+            this.rackleft,
+            this.rackright
+        );
 
         this.balls = this.physics.add.group({
-            key: 'ball',
+            key: "ball",
             repeat: 9,
             setXY: {
                 x: 215,
                 y: 100,
-                stepX: 30
-            }
+                stepX: 30,
+            },
         });
+
+        this.buttons = new Button(this, 20, 20);
     }
 
     update() {
@@ -59,15 +65,19 @@ class Scene extends Phaser.Scene {
                 this.time.addEvent({
                     delay: 2000,
                     callback: () => {
-                        window.location = '/measurement/lesson/weight.html';
+                        window.location = "/lesson/weight.html";
                     },
-                    loop: true
-                })
+                    loop: true,
+                });
             list[list.length - this.level].x += 265;
             this.level++;
             this.reset();
             this.setData(this.data[this.level - 1]);
-            this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
+            this.scales.draw(
+                this.scales.compare(this.rackleft, this.rackright),
+                this.rackleft,
+                this.rackright
+            );
         }
     }
 
@@ -88,19 +98,38 @@ class Scene extends Phaser.Scene {
             gameObject.y = dragY;
         }
 
-        if (gameObject.x < this.rackqueue.x + this.rackqueue.width && gameObject.x > this.rackqueue.x && gameObject.y + gameObject.height < this.rackqueue.y + this.rackqueue.height && gameObject.y + gameObject.height > this.rackqueue.y + this.rackqueue.height / 2) {
+        if (
+            gameObject.x < this.rackqueue.x + this.rackqueue.width &&
+            gameObject.x > this.rackqueue.x &&
+            gameObject.y + gameObject.height <
+            this.rackqueue.y + this.rackqueue.height &&
+            gameObject.y + gameObject.height >
+            this.rackqueue.y + this.rackqueue.height / 2
+        ) {
             this.rackqueue.updateRackTouch();
             this.rackqueue.rackTouch.turnOn();
         } else {
             this.rackqueue.rackTouch.turnOff();
         }
-        if (gameObject.x < this.rackleft.x + this.rackleft.width && gameObject.x > this.rackleft.x && gameObject.y < this.rackleft.y + this.rackleft.height && gameObject.y > this.rackleft.y) {
+        if (
+            gameObject.x < this.rackleft.x + this.rackleft.width &&
+            gameObject.x > this.rackleft.x &&
+            gameObject.y < this.rackleft.y + this.rackleft.height &&
+            gameObject.y > this.rackleft.y
+        ) {
             this.rackleft.updateRackTouch();
             this.rackleft.rackTouch.turnOn();
         } else {
             this.rackleft.rackTouch.turnOff();
         }
-        if (gameObject.x < this.rackright.x + this.rackright.width && gameObject.x > this.rackright.x && gameObject.y + gameObject.height < this.rackright.y + this.rackright.height && gameObject.y + gameObject.height > this.rackright.y + this.rackright.height / 2) {
+        if (
+            gameObject.x < this.rackright.x + this.rackright.width &&
+            gameObject.x > this.rackright.x &&
+            gameObject.y + gameObject.height <
+            this.rackright.y + this.rackright.height &&
+            gameObject.y + gameObject.height >
+            this.rackright.y + this.rackright.height / 2
+        ) {
             this.rackright.updateRackTouch();
             this.rackright.rackTouch.turnOn();
         } else {
@@ -112,25 +141,54 @@ class Scene extends Phaser.Scene {
         this.rackqueue.rackTouch.turnOff();
         this.rackleft.rackTouch.turnOff();
         this.rackright.rackTouch.turnOff();
-        if (gameObject.x < this.rackqueue.x + this.rackqueue.width && gameObject.x > this.rackqueue.x && gameObject.y + gameObject.height < this.rackqueue.y + this.rackqueue.height && gameObject.y + gameObject.height > this.rackqueue.y + this.rackqueue.height / 2) {
+        if (
+            gameObject.x < this.rackqueue.x + this.rackqueue.width &&
+            gameObject.x > this.rackqueue.x &&
+            gameObject.y + gameObject.height <
+            this.rackqueue.y + this.rackqueue.height &&
+            gameObject.y + gameObject.height >
+            this.rackqueue.y + this.rackqueue.height / 2
+        ) {
             this.rackqueue.addBlocks(gameObject);
             this.rackright.removeBlocks(gameObject);
             this.rackleft.removeBlocks(gameObject);
-            this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
-        } else if (gameObject.x < this.rackleft.x + this.rackleft.width && gameObject.x > this.rackleft.x && gameObject.y < this.rackleft.y + this.rackleft.height && gameObject.y > this.rackleft.y) {
+            this.scales.draw(
+                this.scales.compare(this.rackleft, this.rackright),
+                this.rackleft,
+                this.rackright
+            );
+        } else if (
+            gameObject.x < this.rackleft.x + this.rackleft.width &&
+            gameObject.x > this.rackleft.x &&
+            gameObject.y < this.rackleft.y + this.rackleft.height &&
+            gameObject.y > this.rackleft.y
+        ) {
             this.rackleft.addBlocks(gameObject);
             this.rackright.removeBlocks(gameObject);
             this.rackqueue.removeBlocks(gameObject);
-            this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
-        } else if (gameObject.x < this.rackright.x + this.rackright.width && gameObject.x > this.rackright.x && gameObject.y + gameObject.height < this.rackright.y + this.rackright.height && gameObject.y + gameObject.height > this.rackright.y + this.rackright.height / 2) {
+            this.scales.draw(
+                this.scales.compare(this.rackleft, this.rackright),
+                this.rackleft,
+                this.rackright
+            );
+        } else if (
+            gameObject.x < this.rackright.x + this.rackright.width &&
+            gameObject.x > this.rackright.x &&
+            gameObject.y + gameObject.height <
+            this.rackright.y + this.rackright.height &&
+            gameObject.y + gameObject.height >
+            this.rackright.y + this.rackright.height / 2
+        ) {
             this.rackright.addBlocks(gameObject);
             this.rackleft.removeBlocks(gameObject);
             this.rackqueue.removeBlocks(gameObject);
-            this.scales.draw(this.scales.compare(this.rackleft, this.rackright), this.rackleft, this.rackright);
+            this.scales.draw(
+                this.scales.compare(this.rackleft, this.rackright),
+                this.rackleft,
+                this.rackright
+            );
         } else {
-            this.rackqueue.sort();
-            this.rackleft.sort();
-            this.rackright.sort();
+            this.moveToXY(gameObject, gameObject.xOld, gameObject.yOld, 500);
         }
     }
 
@@ -140,7 +198,6 @@ class Scene extends Phaser.Scene {
         this.rackright.reset();
         this.rackqueue.reset();
     }
-
 
     setData(data) {
         this.setRackqueue(data.rackQueue);
@@ -166,34 +223,42 @@ class Scene extends Phaser.Scene {
         this.rackleft.addBlocks(this.gift);
     }
 
+    allOfMove() {
+
+    }
+
+    allOnMove() {
+
+    }
+
     setBlock(weight) {
         switch (weight) {
             case 1:
-                return new Block(this, 0, 0, 1, 'block1');
+                return new Block(this, 0, 0, 1, "block1");
             case 2:
-                return new Block(this, 0, 0, 2, 'block2');
+                return new Block(this, 0, 0, 2, "block2");
             case 3:
-                return new Block(this, 0, 0, 3, 'block3');
+                return new Block(this, 0, 0, 3, "block3");
             case 4:
-                return new Block(this, 0, 0, 4, 'block4');
+                return new Block(this, 0, 0, 4, "block4");
             case 5:
-                return new Block(this, 0, 0, 5, 'block5');
+                return new Block(this, 0, 0, 5, "block5");
             case 6:
-                return new Block(this, 0, 0, 6, 'block6');
+                return new Block(this, 0, 0, 6, "block6");
             case 7:
-                return new Block(this, 0, 0, 7, 'block7');
+                return new Block(this, 0, 0, 7, "block7");
             case 8:
-                return new Block(this, 0, 0, 8, 'block8');
+                return new Block(this, 0, 0, 8, "block8");
             case 9:
-                return new Block(this, 0, 0, 9, 'block9');
+                return new Block(this, 0, 0, 9, "block9");
         }
     }
 
     moveToXY(object, x, y, maxTime) {
-        var angle = Math.atan2(y - object.y, x - object.x);
-        var distance = Math.sqrt(
-            (y - object.y) * (y - object.y) + (x - object.x) * (x - object.x)
-        );
+        var dx = x - object.x;
+        var dy = y - object.y;
+        var angle = Math.atan2(dy, dx);
+        var distance = Math.sqrt(dx * dx + dy * dy);
         var speed = distance / (maxTime / 1000);
         object.setVelocityX(Math.cos(angle) * speed);
         object.setVelocityY(Math.sin(angle) * speed);
@@ -201,11 +266,12 @@ class Scene extends Phaser.Scene {
         this.time.addEvent({
             delay: maxTime,
             callback: () => {
+                object.x = x;
+                object.y = y;
                 object.setVelocityX(0);
                 object.setVelocityY(0);
-                this.time.destroy();
             },
-            loop: true,
+            loop: false,
         });
     }
 }

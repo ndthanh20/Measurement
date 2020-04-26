@@ -12,6 +12,7 @@ class Block extends Phaser.Physics.Arcade.Sprite {
         let weight = 0;
         var speed = 5;
     }
+
     offMove() {
         this.disableInteractive();
     }
@@ -19,11 +20,17 @@ class Block extends Phaser.Physics.Arcade.Sprite {
     onMove() {
         this.setInteractive();
     }
+
     setWeight(weight) {
         this.weight = weight;
     }
 
     getWeight() {
         return this.weight;
+    }
+
+    posOld(x, y) {
+        this.xOld = x;
+        this.yOld = y;
     }
 }

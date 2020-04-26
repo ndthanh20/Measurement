@@ -32,14 +32,15 @@ class Scales extends Phaser.GameObjects.Sprite {
         return temp - a;
     }
 
-    draw(num, rackLeft, rackRight) {
+    draw(num, rackLeft, rackRight, scene) {
         this.left.height += num * 1;
         this.left.y -= num * 1;
         this.right.height -= num * 1;
         this.right.y += num * 1;
         rackLeft.y += num * 1;
         rackRight.y -= num * 1;
-        rackLeft.sort();
-        rackRight.sort();
+
+        rackLeft.sort(scene);
+        rackRight.sort(scene);
     }
 }

@@ -3,6 +3,7 @@ class Rack extends Phaser.GameObjects.Sprite {
         super(scene, x, y, obj);
         scene.add.existing(this).setOrigin(0, 0);
         this.createList(scene);
+        this.setScene(scene);
     }
 
     create() {
@@ -11,6 +12,10 @@ class Rack extends Phaser.GameObjects.Sprite {
 
     createList(scene) {
         this.blocks = scene.add.group();
+    }
+
+    setScene(scene) {
+        this.scene = scene;
     }
 
     createDragRack(scene, key) {
@@ -38,13 +43,14 @@ class Rack extends Phaser.GameObjects.Sprite {
         for (var i = 0; i < list.length; i++) {
             list[i].x = temp;
             list[i].y = this.y - (-this.height + list[i].height);
+            list[i].posOld(list[i].x, list[i].y);
             temp += list[i].width + 5;
         }
     }
 
     addBlocks(obj) {
         this.blocks.add(obj);
-        this.sort();
+        this.sort(this.scene);
     }
 
     reset() {
@@ -53,7 +59,6 @@ class Rack extends Phaser.GameObjects.Sprite {
 
     removeBlocks(obj) {
         this.blocks.remove(obj);
-        this.sort();
     }
 
 
