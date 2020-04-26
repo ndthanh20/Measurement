@@ -22,6 +22,11 @@ class Scene extends Phaser.Scene {
         this.load.image("progressbar", "./image/progressbar.png");
         this.load.image("ball", "./image/ball.png");
         this.load.text("level", "./data/level.json");
+        this.load.spritesheet('sound', "./image/sound.png", {
+            frameWidth: 50,
+            frameHeight: 50
+        });
+        this.load.audio('speak', "/card/01/sound/1.mp3");
     }
 
     create() {
@@ -56,6 +61,7 @@ class Scene extends Phaser.Scene {
         });
 
         this.buttons = new Button(this, 20, 20);
+        this.sound = new Sound(this, 320, 150);
     }
 
     update() {
