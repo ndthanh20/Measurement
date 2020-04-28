@@ -42,15 +42,33 @@ class Rack extends Phaser.GameObjects.Sprite {
         var temp = this.x + this.width / 2 + 20 - 30 * list.length;
         for (var i = 0; i < list.length; i++) {
             list[i].x = temp;
-            list[i].y = this.y - (-this.height + list[i].height);
+            list[i].y = this.y - 3 - (-this.height + list[i].height);
             list[i].posOld(list[i].x, list[i].y);
             temp += list[i].width + 5;
         }
     }
 
+    offMove() {
+        var list = this.blocks.getChildren();
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] instanceof Block) {
+                list[i].offMove();
+            }
+        }
+    }
+
+    onMove() {
+        var list = this.blocks.getChildren();
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] instanceof Block) {
+                list[i].onMove();
+            }
+        }
+    }
+
     addBlocks(obj) {
         this.blocks.add(obj);
-        this.sort(this.scene);
+        this.sort();
     }
 
     reset() {

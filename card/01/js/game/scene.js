@@ -22,11 +22,40 @@ class Scene extends Phaser.Scene {
         this.load.image("progressbar", "./image/progressbar.png");
         this.load.image("ball", "./image/ball.png");
         this.load.text("level", "./data/level.json");
-        this.load.spritesheet('sound', "./image/sound.png", {
+        this.load.spritesheet("sound", "./image/sound.png", {
             frameWidth: 50,
-            frameHeight: 50
+            frameHeight: 50,
         });
-        this.load.audio('speak', "/card/01/sound/1.mp3");
+        this.load.spritesheet("gift3", "./image/gift/gift3.png", {
+            frameWidth: 100,
+            frameHeight: 110,
+        });
+        this.load.spritesheet("gift4", "./image/gift/gift4.png", {
+            frameWidth: 100,
+            frameHeight: 110,
+        });
+        this.load.spritesheet("gift5", "./image/gift/gift5.png", {
+            frameWidth: 100,
+            frameHeight: 110,
+        });
+        this.load.spritesheet("gift6", "./image/gift/gift6.png", {
+            frameWidth: 100,
+            frameHeight: 110,
+        });
+        this.load.spritesheet("gift7", "./image/gift/gift7.png", {
+            frameWidth: 100,
+            frameHeight: 110,
+        });
+        this.load.spritesheet("gift8", "./image/gift/gift8.png", {
+            frameWidth: 100,
+            frameHeight: 110,
+        });
+        this.load.spritesheet("gift9", "./image/gift/gift9.png", {
+            frameWidth: 100,
+            frameHeight: 110,
+        });
+
+        this.load.audio("speak", "/card/01/sound/1.mp3");
     }
 
     create() {
@@ -62,6 +91,7 @@ class Scene extends Phaser.Scene {
 
         this.buttons = new Button(this, 20, 20);
         this.sound = new Sound(this, 320, 150);
+        this.timecheck = 0;
     }
 
     update() {
@@ -69,21 +99,29 @@ class Scene extends Phaser.Scene {
         if (this.scales.isBalance(this.rackleft, this.rackright)) {
             if (this.level === 9)
                 this.time.addEvent({
-                    delay: 2000,
+                    delay: 7000,
                     callback: () => {
                         window.location = "/lesson/weight.html";
                     },
-                    loop: true,
+                    loop: false,
                 });
-            list[list.length - this.level].x += 265;
-            this.level++;
-            this.reset();
-            this.setData(this.data[this.level - 1]);
-            this.scales.draw(
-                this.scales.compare(this.rackleft, this.rackright),
-                this.rackleft,
-                this.rackright
-            );
+            if (++this.timecheck > 400 & this.level !== 9) {
+                this.timecheck = 0;
+                list[list.length - this.level].x += 265;
+                this.level++;
+                this.reset();
+                this.setData(this.data[this.level - 1]);
+                this.scales.draw(
+                    this.scales.compare(this.rackleft, this.rackright),
+                    this.rackleft,
+                    this.rackright
+                );
+            } else {
+                if (this.timecheck === 1) {
+                    this.gift.play("anims_gift" + this.gift.getWeight().toString());
+                    this.allOfMove();
+                }
+            }
         }
     }
 
@@ -208,7 +246,7 @@ class Scene extends Phaser.Scene {
     setData(data) {
         this.setRackqueue(data.rackQueue);
         this.setRackright(data.rackRight);
-        this.setGift(data.gift);
+        this.setRackLeft(data.gift);
     }
 
     setRackright(data) {
@@ -223,19 +261,18 @@ class Scene extends Phaser.Scene {
         }
     }
 
-    setGift(data) {
-        this.gift = this.setBlock(data);
-        this.gift.offMove();
+    setRackLeft(data) {
+        this.gift = this.setGift(data);
         this.rackleft.addBlocks(this.gift);
     }
 
     allOfMove() {
-
+        this.rackleft.offMove();
+        this.rackqueue.offMove();
+        this.rackright.offMove();
     }
 
-    allOnMove() {
-
-    }
+    allOnMove() {}
 
     setBlock(weight) {
         switch (weight) {
@@ -257,6 +294,25 @@ class Scene extends Phaser.Scene {
                 return new Block(this, 0, 0, 8, "block8");
             case 9:
                 return new Block(this, 0, 0, 9, "block9");
+        }
+    }
+
+    setGift(weight) {
+        switch (weight) {
+            case 3:
+                return new Gift(this, 0, 0, 3, "gift3");
+            case 4:
+                return new Gift(this, 0, 0, 4, "gift4");
+            case 5:
+                return new Gift(this, 0, 0, 5, "gift5");
+            case 6:
+                return new Gift(this, 0, 0, 6, "gift6");
+            case 7:
+                return new Gift(this, 0, 0, 7, "gift7");
+            case 8:
+                return new Gift(this, 0, 0, 8, "gift8");
+            case 9:
+                return new Gift(this, 0, 0, 9, "gift9");
         }
     }
 

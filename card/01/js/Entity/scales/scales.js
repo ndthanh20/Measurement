@@ -16,6 +16,7 @@ class Scales extends Phaser.GameObjects.Sprite {
     }
 
     isBalance(rackLeft, rackRight) {
+
         if (rackLeft.sum() == rackRight.sum()) {
             return true;
         }
