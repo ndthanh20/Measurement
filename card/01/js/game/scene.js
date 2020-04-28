@@ -55,7 +55,7 @@ class Scene extends Phaser.Scene {
             frameHeight: 110,
         });
 
-        this.load.audio("speak", "/card/01/sound/1.mp3");
+        this.load.audio("speak", "./sound/1.mp3");
     }
 
     create() {
