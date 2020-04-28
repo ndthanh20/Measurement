@@ -13,6 +13,11 @@ class Scene extends Phaser.Scene {
         this.load.image("block7", "./image/7.png");
         this.load.image("block8", "./image/8.png");
         this.load.image("block9", "./image/9.png");
+        this.load.image("dog","./image/dog.png");
+        this.load.image("duck","./image/duck.png");
+        this.load.image("monkey","./image/monkey.png");
+        this.load.image("pig","./image/pig.png");
+        this.load.image("toy","./image/toy.png");
         this.load.image("rackleft", "./image/left.png");
         this.load.image("rackright", "./image/right.png");
         this.load.image("rackqueue", "./image/queue.png");
@@ -22,40 +27,11 @@ class Scene extends Phaser.Scene {
         this.load.image("progressbar", "./image/progressbar.png");
         this.load.image("ball", "./image/ball.png");
         this.load.text("level", "./data/level.json");
-        this.load.spritesheet("sound", "./image/sound.png", {
+        this.load.spritesheet('sound', "./image/sound.png", {
             frameWidth: 50,
-            frameHeight: 50,
+            frameHeight: 50
         });
-        this.load.spritesheet("gift3", "./image/gift/gift3.png", {
-            frameWidth: 100,
-            frameHeight: 110,
-        });
-        this.load.spritesheet("gift4", "./image/gift/gift4.png", {
-            frameWidth: 100,
-            frameHeight: 110,
-        });
-        this.load.spritesheet("gift5", "./image/gift/gift5.png", {
-            frameWidth: 100,
-            frameHeight: 110,
-        });
-        this.load.spritesheet("gift6", "./image/gift/gift6.png", {
-            frameWidth: 100,
-            frameHeight: 110,
-        });
-        this.load.spritesheet("gift7", "./image/gift/gift7.png", {
-            frameWidth: 100,
-            frameHeight: 110,
-        });
-        this.load.spritesheet("gift8", "./image/gift/gift8.png", {
-            frameWidth: 100,
-            frameHeight: 110,
-        });
-        this.load.spritesheet("gift9", "./image/gift/gift9.png", {
-            frameWidth: 100,
-            frameHeight: 110,
-        });
-
-        this.load.audio("speak", "/card/01/sound/1.mp3");
+        this.load.audio('speak', "/card/02/sound/1.mp3");
     }
 
     create() {
@@ -81,7 +57,7 @@ class Scene extends Phaser.Scene {
 
         this.balls = this.physics.add.group({
             key: "ball",
-            repeat: 8,
+            repeat: 4,
             setXY: {
                 x: 215,
                 y: 30,
@@ -90,24 +66,22 @@ class Scene extends Phaser.Scene {
         });
 
         this.buttons = new Button(this, 20, 20);
-        this.sound = new Sound(this, 320, 100);
-        this.timecheck = 0;
+        this.sound = new Sound(this, 150, 100);
     }
 
     update() {
         var list = this.balls.getChildren();
         if (this.scales.isBalance(this.rackleft, this.rackright)) {
-            if (this.level === 9)
+            if (this.level === 5)
                 this.time.addEvent({
-                    delay: 7000,
+                    delay: 2000,
                     callback: () => {
                         window.location = "/lesson/weight.html";
                     },
                     loop: false,
                 });
-            if (++this.timecheck > 400 & this.level !== 9) {
-                this.timecheck = 0;
-                list[list.length - this.level].x += 295;
+            if(this.level !==5){
+                list[list.length - this.level].x += 415;
                 this.level++;
                 this.reset();
                 this.setData(this.data[this.level - 1]);
@@ -116,11 +90,6 @@ class Scene extends Phaser.Scene {
                     this.rackleft,
                     this.rackright
                 );
-            } else {
-                if (this.timecheck === 1) {
-                    this.gift.play("anims_gift" + this.gift.getWeight().toString());
-                    this.allOfMove();
-                }
             }
         }
     }
@@ -246,7 +215,7 @@ class Scene extends Phaser.Scene {
     setData(data) {
         this.setRackqueue(data.rackQueue);
         this.setRackright(data.rackRight);
-        this.setRackLeft(data.gift);
+        this.setGift(data.gift);
     }
 
     setRackright(data) {
@@ -261,18 +230,39 @@ class Scene extends Phaser.Scene {
         }
     }
 
-    setRackLeft(data) {
-        this.gift = this.setGift(data);
+    setGift(data) {
+        this.gift = this.setBlockGift(data);
+        this.gift.offMove();
         this.rackleft.addBlocks(this.gift);
     }
 
     allOfMove() {
-        this.rackleft.offMove();
-        this.rackqueue.offMove();
-        this.rackright.offMove();
+
     }
 
-    allOnMove() {}
+    allOnMove() {
+
+    }
+    moveToXY(object, x, y, maxTime) {
+        var dx = x - object.x;
+        var dy = y - object.y;
+        var angle = Math.atan2(dy, dx);
+        var distance = Math.sqrt(dx * dx + dy * dy);
+        var speed = distance / (maxTime / 1000);
+        object.setVelocityX(Math.cos(angle) * speed);
+        object.setVelocityY(Math.sin(angle) * speed);
+
+        this.time.addEvent({
+            delay: maxTime,
+            callback: () => {
+                object.x = x;
+                object.y = y;
+                object.setVelocityX(0);
+                object.setVelocityY(0);
+            },
+            loop: false,
+        });
+    }
 
     setBlock(weight) {
         switch (weight) {
@@ -296,44 +286,19 @@ class Scene extends Phaser.Scene {
                 return new Block(this, 0, 0, 9, "block9");
         }
     }
-
-    setGift(weight) {
+    setBlockGift(weight){
         switch (weight) {
-            case 3:
-                return new Gift(this, 0, 0, 3, "gift3");
-            case 4:
-                return new Gift(this, 0, 0, 4, "gift4");
             case 5:
-                return new Gift(this, 0, 0, 5, "gift5");
-            case 6:
-                return new Gift(this, 0, 0, 6, "gift6");
-            case 7:
-                return new Gift(this, 0, 0, 7, "gift7");
+                return new Block(this, 0, 0, 5, "toy");
             case 8:
-                return new Gift(this, 0, 0, 8, "gift8");
+                return new Block(this, 0, 0, 8, "pig");
+            case 6:
+                return new Block(this, 0, 0, 6, "monkey");
+            case 1:
+                return new Block(this, 0, 0, 1, "duck");
             case 9:
-                return new Gift(this, 0, 0, 9, "gift9");
+                return new Block(this, 0, 0, 9, "dog");
         }
     }
 
-    moveToXY(object, x, y, maxTime) {
-        var dx = x - object.x;
-        var dy = y - object.y;
-        var angle = Math.atan2(dy, dx);
-        var distance = Math.sqrt(dx * dx + dy * dy);
-        var speed = distance / (maxTime / 1000);
-        object.setVelocityX(Math.cos(angle) * speed);
-        object.setVelocityY(Math.sin(angle) * speed);
-
-        this.time.addEvent({
-            delay: maxTime,
-            callback: () => {
-                object.x = x;
-                object.y = y;
-                object.setVelocityX(0);
-                object.setVelocityY(0);
-            },
-            loop: false,
-        });
-    }
 }
