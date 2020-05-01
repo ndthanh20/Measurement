@@ -67,6 +67,8 @@ class Scene extends Phaser.Scene {
         this.rackqueue.createDragRack(this, "rackqueueTouch");
         this.rackleft.createDragRack(this, "rackleftTouch");
         this.rackright.createDragRack(this, "rackrightTouch");
+        this.buttons = new Button(this, 20, 20);
+        this.sound = new Sound(this, 320, 100);
         this.gift = null;
         this.level = 1;
         this.data = JSON.parse(this.cache.text.get("level")).level;
@@ -76,7 +78,8 @@ class Scene extends Phaser.Scene {
         this.scales.draw(
             this.scales.compare(this.rackleft, this.rackright),
             this.rackleft,
-            this.rackright
+            this.rackright,
+            this
         );
 
         this.balls = this.physics.add.group({
@@ -88,25 +91,22 @@ class Scene extends Phaser.Scene {
                 stepX: 30,
             },
         });
-
-        this.buttons = new Button(this, 20, 20);
-        this.sound = new Sound(this, 320, 100);
-        this.timecheck = 0;
+        this.timeCheck = 0;
     }
 
     update() {
-        var list = this.balls.getChildren();
+        var list = this.balls.getChildren()
         if (this.scales.isBalance(this.rackleft, this.rackright)) {
             if (this.level === 9)
                 this.time.addEvent({
-                    delay: 7000,
+                    delay: 4000,
                     callback: () => {
                         window.location = "/lesson/weight.html";
                     },
                     loop: false,
                 });
-            if (++this.timecheck > 400 & this.level !== 9) {
-                this.timecheck = 0;
+            if (++this.timeCheck > 400 && this.level !== 9) {
+                this.timeCheck = 0;
                 list[list.length - this.level].x += 295;
                 this.level++;
                 this.reset();
@@ -114,10 +114,10 @@ class Scene extends Phaser.Scene {
                 this.scales.draw(
                     this.scales.compare(this.rackleft, this.rackright),
                     this.rackleft,
-                    this.rackright
+                    this.rackright, this
                 );
             } else {
-                if (this.timecheck === 1) {
+                if (this.timeCheck === 1) {
                     this.gift.play("anims_gift" + this.gift.getWeight().toString());
                     this.allOfMove();
                 }
@@ -126,6 +126,7 @@ class Scene extends Phaser.Scene {
     }
 
     onDoDrag(pointer, gameObject, dragX, dragY) {
+        console.log(pointer.x + " " + pointer.y);
         if (dragX + gameObject.width > config.width) {
             gameObject.y = dragY;
         } else if (dragX < 0) {
@@ -199,7 +200,8 @@ class Scene extends Phaser.Scene {
             this.scales.draw(
                 this.scales.compare(this.rackleft, this.rackright),
                 this.rackleft,
-                this.rackright
+                this.rackright,
+                this
             );
         } else if (
             gameObject.x < this.rackleft.x + this.rackleft.width &&
@@ -213,7 +215,8 @@ class Scene extends Phaser.Scene {
             this.scales.draw(
                 this.scales.compare(this.rackleft, this.rackright),
                 this.rackleft,
-                this.rackright
+                this.rackright,
+                this
             );
         } else if (
             gameObject.x < this.rackright.x + this.rackright.width &&
@@ -229,7 +232,8 @@ class Scene extends Phaser.Scene {
             this.scales.draw(
                 this.scales.compare(this.rackleft, this.rackright),
                 this.rackleft,
-                this.rackright
+                this.rackright,
+                this
             );
         } else {
             this.moveToXY(gameObject, gameObject.xOld, gameObject.yOld, 500);
@@ -244,9 +248,9 @@ class Scene extends Phaser.Scene {
     }
 
     setData(data) {
+        this.setRackLeft(data.gift);
         this.setRackqueue(data.rackQueue);
         this.setRackright(data.rackRight);
-        this.setRackLeft(data.gift);
     }
 
     setRackright(data) {
@@ -332,6 +336,19 @@ class Scene extends Phaser.Scene {
                 object.y = y;
                 object.setVelocityX(0);
                 object.setVelocityY(0);
+            },
+            loop: false,
+        });
+    }
+
+    moveToY(object, speed, maxTime) {
+        object.setVelocityY(speed);
+
+        this.time.addEvent({
+            delay: maxTime,
+            callback: () => {
+                object.setVelocityY(0);
+                object.posOld(object.x, object.y);
             },
             loop: false,
         });

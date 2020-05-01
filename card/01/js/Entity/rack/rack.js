@@ -1,7 +1,8 @@
-class Rack extends Phaser.GameObjects.Sprite {
+class Rack extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, obj) {
         super(scene, x, y, obj);
         scene.add.existing(this).setOrigin(0, 0);
+        scene.physics.add.existing(this);
         this.createList(scene);
         this.setScene(scene);
     }
@@ -30,7 +31,7 @@ class Rack extends Phaser.GameObjects.Sprite {
 
     sum() {
         var sum = 0;
-        let blocksList = this.blocks.getChildren();
+        var blocksList = this.blocks.getChildren();
         for (var i = 0; i < blocksList.length; i++) {
             sum += blocksList[i].weight;
         }
@@ -41,10 +42,18 @@ class Rack extends Phaser.GameObjects.Sprite {
         var list = this.blocks.getChildren();
         var temp = this.x + this.width / 2 + 20 - 30 * list.length;
         for (var i = 0; i < list.length; i++) {
-            list[i].x = temp;
-            list[i].y = this.y - 3 - (-this.height + list[i].height);
-            list[i].posOld(list[i].x, list[i].y);
+            var tempX = temp;
+            var tempY = this.y - 3 - (-this.height + list[i].height);
+            this.scene.moveToXY(list[i], tempX, tempY, 500);
+            list[i].posOld(tempX, tempY);
             temp += list[i].width + 5;
+        }
+    }
+
+    blockMoveWhenScaleTransition(scene, speed, maxTime) {
+        var list = this.blocks.getChildren();
+        for (var i = 0; i < list.length; i++) {
+            scene.moveToY(list[i], speed, maxTime);
         }
     }
 

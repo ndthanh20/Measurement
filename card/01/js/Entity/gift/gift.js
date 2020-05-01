@@ -1,8 +1,9 @@
-class Gift extends Phaser.GameObjects.Sprite {
+class Gift extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, weight, obj) {
         super(scene, x, y, obj);
         this.setWeight(weight);
         scene.add.existing(this).setOrigin(0, 0);
+        scene.physics.add.existing(this);
         this.createAnims(scene);
     }
 
