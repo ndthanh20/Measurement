@@ -86,7 +86,7 @@ class Scene extends Phaser.Scene {
             key: "ball",
             repeat: 8,
             setXY: {
-                x: 215,
+                x: 270,
                 y: 30,
                 stepX: 30,
             },
@@ -107,7 +107,7 @@ class Scene extends Phaser.Scene {
                 });
             if (++this.timeCheck > 400 && this.level !== 9) {
                 this.timeCheck = 0;
-                list[list.length - this.level].x += 295;
+                list[list.length - this.level].x += 320;
                 this.level++;
                 this.reset();
                 this.setData(this.data[this.level - 1]);

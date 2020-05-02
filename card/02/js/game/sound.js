@@ -1,6 +1,6 @@
 class Sound {
     constructor(scene, x, y) {
-        this.clickButton = scene.add.text(x + 40, y - 15, 'Balance the scales', {
+        this.clickButton = scene.add.text(x + 40, y - 15, "Balance the scales and figure out the toy's weight ", {
             font: "30px Arial",
             fill: "#000"
         });

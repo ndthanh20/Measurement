@@ -18,6 +18,7 @@ class Scene extends Phaser.Scene {
         this.load.image("duck", "./image/duck.png");
         this.load.image("monkey", "./image/monkey.png");
         this.load.image("pig", "./image/pig.png");
+        this.load.image("inputBox", "./image/inputBox.png");
         this.load.image("rackleft", "./image/left.png");
         this.load.image("rackright", "./image/right.png");
         this.load.image("rackqueue", "./image/queue.png");
@@ -43,8 +44,9 @@ class Scene extends Phaser.Scene {
         this.rackqueue.createDragRack(this, "rackqueueTouch");
         this.rackright.createDragRack(this, "rackrightTouch");
         this.buttons = new Button(this, 20, 20);
-        this.sound = new Sound(this, 320, 100);
+        this.sound = new Sound(this, 150, 100);
         this.gift = null;
+        this.inputText = null;
         this.level = 1;
         this.data = JSON.parse(this.cache.text.get("level")).level;
         this.setData(this.data[this.level - 1]);
@@ -61,37 +63,51 @@ class Scene extends Phaser.Scene {
             key: "ball",
             repeat: 4,
             setXY: {
-                x: 215,
+                x: 270,
                 y: 30,
-                stepX: 30,
+                stepX: 25,
             },
         });
         this.timeCheck = 0;
+        this.running = false;
+        this.isTrue = false;
     }
 
     update() {
         var list = this.balls.getChildren();
         if (this.scales.isBalance(this.rackleft, this.rackright)) {
-            if (this.level === 5)
-                this.time.addEvent({
-                    delay: 4000,
-                    callback: () => {
-                        window.location = "/lesson/weight.html";
-                    },
-                    loop: false,
-                });
-            if (++this.timeCheck > 100 && this.level !== 5) {
-                this.timeCheck = 0;
-                list[list.length - this.level].x += 415;
-                this.reset();
-                this.level++;
-                this.setData(this.data[this.level - 1]);
-                this.scales.draw(
-                    this.scales.compare(this.rackleft, this.rackright),
-                    this.rackleft,
-                    this.rackright,
-                    this
-                );
+            this.allOffMove();
+
+            if (!this.running) {
+                this.running = true;
+                this.rackqueue.reset();
+                this.rackqueue.turnOff();
+                this.inputText = new Input(this, 280, 400, this.gift.getWeight());
+                this.onKeyboard();
+            }
+
+            if (this.isTrue) {
+                if (this.level === 5)
+                    this.time.addEvent({
+                        delay: 4000,
+                        callback: () => {
+                            window.location = "/lesson/weight.html";
+                        },
+                        loop: false,
+                    });
+                if (++this.timeCheck > 100 && this.level !== 5) {
+                    this.timeCheck = 0;
+                    list[list.length - this.level].x += 320;
+                    this.reset();
+                    this.level++;
+                    this.setData(this.data[this.level - 1]);
+                    this.scales.draw(
+                        this.scales.compare(this.rackleft, this.rackright),
+                        this.rackleft,
+                        this.rackright,
+                        this
+                    );
+                }
             }
         }
     }
@@ -144,6 +160,7 @@ class Scene extends Phaser.Scene {
     onStop(pointer, gameObject) {
         this.rackqueue.rackTouch.turnOff();
         this.rackright.rackTouch.turnOff();
+        this.allOffMove();
         if (
             gameObject.x < this.rackqueue.x + this.rackqueue.width &&
             gameObject.x > this.rackqueue.x &&
@@ -184,15 +201,19 @@ class Scene extends Phaser.Scene {
     }
 
     reset() {
+        this.inputText.clearInput();
         this.rackleft.reset();
         this.rackright.reset();
         this.rackqueue.reset();
     }
 
     setData(data) {
+        this.rackqueue.turnOn();
+        this.allOnMove();
         this.setRackLeft(data.gift);
         this.setRackqueue(data.rackQueue);
         this.setRackright(data.rackRight);
+
     }
 
     setRackright(data) {
@@ -212,12 +233,15 @@ class Scene extends Phaser.Scene {
         this.rackleft.addBlocks(this.gift);
     }
 
-    allOfMove() {
+    allOffMove() {
         this.rackqueue.offMove();
         this.rackright.offMove();
     }
 
-    allOnMove() {}
+    allOnMove() {
+        this.rackqueue.onMove();
+        this.rackright.onMove();
+    }
 
     setGift(weight) {
         switch (weight) {
@@ -281,6 +305,7 @@ class Scene extends Phaser.Scene {
                 object.setVelocityY(0);
                 object.x = x;
                 object.y = y;
+                this.allOnMove();
             },
             loop: false,
         });
@@ -297,5 +322,23 @@ class Scene extends Phaser.Scene {
             },
             loop: false,
         });
+    }
+
+    onKeyboard() {
+        this.input.keyboard.on("keydown", this.handleInput, this);
+    }
+
+    offKeyboard() {
+        this.input.keyboard.off("keydown");
+    }
+
+    handleInput(event) {
+        var input = (event.code).slice(-1);
+        if (input <= "9" && input >= "0") {
+            if (this.inputText.isTrue(input) === true) {
+                this.offKeyboard();
+                this.isTrue = true;
+            }
+        }
     }
 }
