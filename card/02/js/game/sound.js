@@ -1,6 +1,6 @@
 class Sound {
     constructor(scene, x, y) {
-        this.clickButton = scene.add.text(x + 40, y - 15, "Balance the scales and figure out the toy's weight ", {
+        this.clickButton = scene.add.text(x + 40, y - 15, "Balance the scales and figure out the dog's weight ", {
             font: "30px Arial",
             fill: "#000"
         });
@@ -14,6 +14,15 @@ class Sound {
             .on('pointerout', () => this.enterButtonRestState())
             .on('pointerdown', () => this.enterButtonActiveState())
         this.sound = scene.sound.add('speak');
+        this.level = 1;
+    }
+
+    reset(){
+        this.level ++;
+        if(this.level === 2) this.clickButton.setText("Balance the scales and figure out the cat's weight");
+        if(this.level === 3) this.clickButton.setText("Balance the scales and figure out the pig's weight");
+        if(this.level === 4) this.clickButton.setText("Balance the scales and figure out the money's weight");
+        if(this.level === 5) this.clickButton.setText("Balance the scales and figure out the duck's weight");
     }
 
     enterButtonHoverState() {

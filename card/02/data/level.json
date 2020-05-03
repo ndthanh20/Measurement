@@ -19,49 +19,5 @@
         "gift": 9,
         "rackQueue": [1, 2, 3, 4, 5],
         "rackRight": []
-    }, {
-        "gift": 3,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 5,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 7,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 9,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 2,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 6,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 8,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 1,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 4,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 7,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
-    }, {
-        "gift": 9,
-        "rackQueue": [1, 2, 3, 4, 5],
-        "rackRight": []
     }]
 }

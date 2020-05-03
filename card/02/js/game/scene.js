@@ -32,7 +32,8 @@ class Scene extends Phaser.Scene {
             frameWidth: 50,
             frameHeight: 50,
         });
-        this.load.audio("speak", "./sound/1.mp3");
+        this.load.audio("speak", "./sound/sound.mp3");
+        this.load.audio("speak3", "./sound/sound3.mp3");
     }
 
     create() {
@@ -97,8 +98,11 @@ class Scene extends Phaser.Scene {
                     });
                 if (++this.timeCheck > 100 && this.level !== 5) {
                     this.timeCheck = 0;
+                    this.running = false;
+                    this.isTrue = false;
                     list[list.length - this.level].x += 320;
                     this.reset();
+                    this.sound.reset();
                     this.level++;
                     this.setData(this.data[this.level - 1]);
                     this.scales.draw(
@@ -245,24 +249,16 @@ class Scene extends Phaser.Scene {
 
     setGift(weight) {
         switch (weight) {
-            case 1:
-                return new Gift(this, 0, 0, 1, "dog");
-            case 2:
-                return new Gift(this, 0, 0, 2, "dog");
-            case 3:
-                return new Gift(this, 0, 0, 3, "dog");
-            case 4:
-                return new Gift(this, 0, 0, 4, "dog");
             case 5:
                 return new Gift(this, 0, 0, 5, "dog");
-            case 6:
-                return new Gift(this, 0, 0, 6, "dog");
-            case 7:
-                return new Gift(this, 0, 0, 7, "dog");
             case 8:
-                return new Gift(this, 0, 0, 8, "dog");
+                return new Gift(this, 0, 0, 8, "cat");
+            case 6:
+                return new Gift(this, 0, 0, 6, "pig");
+            case 1:
+                return new Gift(this, 0, 0, 1, "monkey");
             case 9:
-                return new Gift(this, 0, 0, 9, "dog");
+                return new Gift(this, 0, 0, 9, "duck");
         }
     }
 
