@@ -88,7 +88,7 @@ class Scene extends Phaser.Scene {
             setXY: {
                 x: 270,
                 y: 30,
-                stepX: 30,
+                stepX: 25,
             },
         });
         this.timeCheck = 0;
@@ -107,7 +107,7 @@ class Scene extends Phaser.Scene {
                 });
             if (++this.timeCheck > 400 && this.level !== 9) {
                 this.timeCheck = 0;
-                list[list.length - this.level].x += 320;
+                list[list.length - this.level].x += 220;
                 this.level++;
                 this.reset();
                 this.setData(this.data[this.level - 1]);
