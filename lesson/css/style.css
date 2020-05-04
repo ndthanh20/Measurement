@@ -114,6 +114,7 @@ header {
 
 .title {
     position: absolute;
+    right: 50%;
     margin-top: 10rem;
     margin-left: 20rem;
     font-weight: 850;
@@ -133,10 +134,10 @@ header {
     position: absolute;
     display: grid;
     margin-top: 15rem;
-    margin-left: 15rem;
+    margin-left: 20rem;
     grid-template-rows: 15rem;
     grid-template-columns: 12rem 12rem 12rem;
-    grid-column-gap: 5rem;
+    grid-column-gap: 15rem;
 }
 
 .game a {
